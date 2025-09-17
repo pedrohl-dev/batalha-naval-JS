@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bt.css">
+    <title>Batalha Naval</title>
+   
+</head>
+<body>
+    <h2 id="msg">Clique em qualquer área para iniciar o jogo.</h2>
+    <form>
+        <div class="ponto-box">
+            <p>Pontos</p>
+            <h1 id="points">0</h1>
+            <button id="btnReset">Resetar</button>
+        </div>
+    </form>
+</body>
+    <script>
+        let pontuacao = 0;
+
+        function atualizarPontuacao() {
+            document.getElementById('points').innerText = pontuacao;
+        }
+
+        atualizarPontuacao();
+
+    tableDiv = document.write("<div class='table-container'>")
+
+    let matriz = [
+            ["1", "b", "3", "a", "b", "a", "b", "a", "a", "3"],
+            ["a", "a", "a", "2", "b", "1", "2", "b", "b", "a"],
+            ["a", "2", "a", "a", "a", "a", "a", "a", "a", "a"],
+            ["b", "a", "a", "b", "b", "2", "a", "3", "a", "a"],
+            ["a", "a", "2", "a", "3", "a", "b", "a", "1", "b"],
+            ["a", "b", "a", "b", "a", "3", "a", "b", "a", "1"],
+            ["a", "b", "a", "a", "a", "1", "b", "a", "2", "1"],
+            ["a", "a", "a", "b", "b", "a", "a", "b", "a", "a"],
+            ["2", "a", "3", "a", "a", "a", "a", "a", "b", "a"],
+            ["a", "b", "a", "a", "a", "a", "a", "a", "a", "b"]
+        ];
+
+        const imagens = {
+            "1": "img/Ship-1.png",
+            "2": "img/Ship-2.png",
+            "3": "img/Ship-3.png",
+            "a": "img/Wave.png",
+            "b": "img/bomba.png"
+        };
+
+        function atirar(x,y){
+            let coordenada = x+""+y;
+            let imagem = document.getElementById(coordenada);
+
+            if (imagem.getAttribute('data-clicado')) return;
+
+            imagem.src = imagens[matriz[x][y]];
+
+            if (matriz[x][y] === "1") {
+                document.getElementById('msg').innerHTML = "Você acertou um navio pequeno, você ganhou 1 ponto."
+
+                pontuacao += 1;
+                atualizarPontuacao()
+            } 
+
+            if (matriz[x][y] === "2") {
+                document.getElementById('msg').innerHTML = "Você acertou um navio médio, você ganhou 2 pontos."
+
+                pontuacao += 2;
+                atualizarPontuacao()
+            }
+
+            if (matriz[x][y] === "3") {
+                document.getElementById('msg').innerHTML = "Você acertou um navio grande, você ganhou 3 pontos."
+
+                pontuacao += 3;
+                atualizarPontuacao()
+            }
+
+            if (matriz[x][y] === "b") {
+                document.getElementById('msg').innerHTML = "Você acertou uma bomba, você perdeu 1 ponto."
+
+                pontuacao -= 1;
+                atualizarPontuacao()
+            }
+
+            if (matriz[x][y] === "a") {
+                document.getElementById('msg').innerHTML = "Você acertou a água, você não ganhou nenhum ponto."
+            }
+
+            imagem.setAttribute('data-clicado', 'true');
+        }
+
+        document.write("<table>") /*JS vai abrir uma tabela*/
+             for (l=0;l<10;l++){
+                document.write("<tr>") /*Js vai abrir uma linha "<tr>"*/
+                    for (c=0;c<10;c++){
+                        clique = document.write("<td><img id='"+l+""+c+"' onclick='atirar("+l+","+c+")' src='img/Fire-icon.png'></td>") /*JS vai abrir uma coluna "<td>"*/
+                    }
+                document.write("</tr>") /*JS vai fechar a linha </tr>*/
+                }
+        document.write("</table>") /*Js vai fehcar o <table>*/
+    tableDiv = document.write("</div>")
+    </script>
+</html>
